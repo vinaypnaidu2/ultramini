@@ -1,15 +1,12 @@
 import torch.nn.functional as F
-import torch
 import torch.nn as nn 
 from unet_parts import DoubleConv, Down, Up, OutConv
-
 
 class UNet_mini(nn.Module):
     def __init__(self, n_channels, bilinear=True):
         super(UNet_mini, self).__init__()
         self.n_channels = n_channels
         self.bilinear = bilinear
-
         self.inc = DoubleConv(n_channels, 8)
         self.down1 = Down(8, 16)
         self.down2 = Down(16, 32)
@@ -19,9 +16,7 @@ class UNet_mini(nn.Module):
         self.up3 = Up(32, 16 // factor, bilinear)
         self.up4 = Up(16, 8, bilinear)
         self.pre = nn.Conv2d(8, 3, 3, 1, 1)
-        self.re = nn.Sigmoid()
-
-        
+        self.re = nn.Sigmoid()        
 
     def forward(self, xs):
         x1 = self.inc(xs)

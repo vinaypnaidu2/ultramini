@@ -3,7 +3,6 @@ import torch
 import torch.nn as nn 
 from unet_parts import DoubleConv, Down, Up, OutConv
 
-
 class UNet(nn.Module):
     def __init__(self, n_channels, bilinear=True):
         super(UNet, self).__init__()
@@ -23,8 +22,6 @@ class UNet(nn.Module):
         self.pre = nn.Conv2d(64, 3, 3, 1, 1)
         self.re = nn.Sigmoid()
 
-        
-
     def forward(self, xs):
         x1 = self.inc(xs)
         x2 = self.down1(x1)
@@ -36,8 +33,4 @@ class UNet(nn.Module):
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.re(self.pre(x))
-   
-
-        
-
         return x
